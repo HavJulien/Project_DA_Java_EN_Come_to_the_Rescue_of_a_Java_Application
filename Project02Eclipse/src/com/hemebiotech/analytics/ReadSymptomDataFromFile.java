@@ -1,5 +1,6 @@
 package com.hemebiotech.analytics;
 
+import com.hemebiotech.interfaces.ISymptomReader;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -7,34 +8,38 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Simple brute force implementation
+ * Class used to read a file and list the symptoms
+ * 
+ * @author havardjulien
  *
  */
 public class ReadSymptomDataFromFile implements ISymptomReader {
 
-	private String filepath;
+	private String filePath;
 	
-	/**
-	 * 
-	 * @param filepath a full or partial path to file with symptom strings in it, one per line
-	 */
-	public ReadSymptomDataFromFile (String filepath) {
-		this.filepath = filepath;
+	public ReadSymptomDataFromFile (String filePath) {
+		this.filePath = filePath;
 	}
 	
+	/** {@code}
+	 * If no data is available, return an empty List
+	 * 
+	 * @return {@code List<String>} a raw listing of all Symptoms obtained from a file source
+	 */
 	@Override
-	public List<String> GetSymptoms() {
+	public List<String> getSymptoms() {
 		ArrayList<String> result = new ArrayList<String>();
 		
-		if (filepath != null) {
+		if (filePath != null) {
 			try {
-				BufferedReader reader = new BufferedReader (new FileReader(filepath));
+				BufferedReader reader = new BufferedReader (new FileReader(filePath));
 				String line = reader.readLine();
 				
 				while (line != null) {
 					result.add(line);
 					line = reader.readLine();
 				}
+				
 				reader.close();
 			} catch (IOException e) {
 				e.printStackTrace();
